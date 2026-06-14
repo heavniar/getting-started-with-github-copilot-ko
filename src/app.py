@@ -61,7 +61,10 @@ def signup_for_activity(activity_name: str, email: str):
 
     # 대상 활동 조회
     activity = activities[activity_name]
-
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="이미 신청된 활동입니다")
+   
     # 학생 추가
     activity["participants"].append(email)
     return {"message": f"{email} 님이 {activity_name} 활동에 신청되었습니다"}
